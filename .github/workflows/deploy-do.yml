@@ -1,4 +1,4 @@
-name: Deployment on DigitalOCean Server
+name: CD
 
 on:
   push:
