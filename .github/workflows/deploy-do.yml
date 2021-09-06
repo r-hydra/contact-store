@@ -24,6 +24,6 @@ jobs:
             yarn install
             yarn production
             cd ..
-            go build cmd/web/*.go -o contact_store
+            /usr/local/go/bin/go build -o contact_store cmd/web/*.go
             chmod +x contact_store
             supervisorctl restart contact_store
