@@ -1,5 +1,6 @@
 /.idea
 /state
+/state.json
 /web/node_modules
 /web/static/*
 !/web/static/index.html
