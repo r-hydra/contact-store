@@ -1,0 +1,29 @@
+name: Deployment on DigitalOCean Server
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  do_contact_store:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executing remote ssh command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DO_IP }}
+          username: ${{ secrets.DO_USER }}
+          key: ${{ secrets.DO_PK }}
+          script: |
+            cd ${{ secrets.DO_ROOT }}
+            eval "$(ssh-agent -s)"
+            ssh-add ../.ssh/contact_store
+            git reset --hard
+            git pull
+            cd web
+            yarn install
+            yarn production
+            cd ..
+            go build cmd/web/*.go -o contact_store
+            chmod +x contact_store
+            supervisorctl restart contact_store
